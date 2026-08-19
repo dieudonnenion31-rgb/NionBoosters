@@ -269,4 +269,28 @@ input {
   color: var(--ink-400);
   font-size: 0.9rem;
   padding: 30px 10px;
-  }
+  }.site-footer {
+  padding: 20px 20px 4px;
+  border-top: 1px solid var(--paper-100);
+  text-align: center;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: var(--ink-700);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.footer-copy {
+  margin-top: 10px;
+  font-size: 0.72rem;
+  color: var(--ink-400);
+}
