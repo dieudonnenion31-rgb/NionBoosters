@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../lib/AuthContext";
+import Footer from "./Footer";
 
 export default function Layout() {
   const { profile, logout } = useAuth();
@@ -32,6 +33,8 @@ export default function Layout() {
         <Outlet />
       </main>
 
+      <Footer />
+
       <nav className="tabbar">
         <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
           <span>🏠</span>
@@ -52,4 +55,4 @@ export default function Layout() {
       </nav>
     </div>
   );
-      }
+}
