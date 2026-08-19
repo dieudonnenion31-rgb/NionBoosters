@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { getFunctions, httpsCallable } from "firebase/functions";
-import { app } from "../lib/firebase";
+import { auth } from "../lib/firebase";
+import { useAuth } from "../lib/AuthContext";
 import GrowthRule from "../components/GrowthRule";
 
-const functions = getFunctions(app);
-
 export default function Order() {
+  const { user } = useAuth();
   const [services, setServices] = useState(null);
   const [error, setError] = useState("");
   const [selected, setSelected] = useState("");
@@ -15,12 +14,18 @@ export default function Order() {
   const [success, setSuccess] = useState("");
 
   useEffect(() => {
-    const getServicesFn = httpsCallable(functions, "getServices");
-    getServicesFn()
-      .then((res) => setServices(res.data))
+    fetch("/.netlify/functions/get-services")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          setError(data.error);
+        } else {
+          setServices(data);
+        }
+      })
       .catch(() =>
         setError(
-          "Catalogue indisponible pour le moment. Vérifie que la Cloud Function getServices est bien déployée."
+          "Catalogue indisponible pour le moment. Vérifie que la fonction Netlify get-services est bien déployée."
         )
       );
   }, []);
@@ -34,13 +39,23 @@ export default function Order() {
     setSuccess("");
     setBusy(true);
     try {
-      const placeOrderFn = httpsCallable(functions, "placeOrder");
-      await placeOrderFn({
-        serviceId: service.service,
-        link,
-        quantity: Number(quantity),
-        priceEstimate,
+      const idToken = await auth.currentUser.getIdToken();
+      const res = await fetch("/.netlify/functions/place-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({
+          serviceId: service.service,
+          link,
+          quantity: Number(quantity),
+          priceEstimate,
+        }),
       });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
       setSuccess("Commande envoyée au fournisseur.");
       setLink("");
       setQuantity("");
@@ -124,4 +139,4 @@ export default function Order() {
       )}
     </div>
   );
-         }
+}
