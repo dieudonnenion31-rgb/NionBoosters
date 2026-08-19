@@ -8,6 +8,8 @@ import Dashboard from "./pages/Dashboard";
 import Order from "./pages/Order";
 import Activity from "./pages/Activity";
 import Account from "./pages/Account";
+import Contact from "./pages/Contact";
+import Admin from "./pages/Admin";
 
 export default function App() {
   return (
@@ -28,6 +30,8 @@ export default function App() {
           <Route path="commande" element={<Order />} />
           <Route path="activite" element={<Activity />} />
           <Route path="compte" element={<Account />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="admin" element={<Admin />} />
         </Route>
       </Routes>
     </AuthProvider>
