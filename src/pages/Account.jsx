@@ -1,5 +1,8 @@
+import { Link } from "react-router-dom";
 import { useAuth } from "../lib/AuthContext";
 import GrowthRule from "../components/GrowthRule";
+
+const OWNER_UIDS = ["msjoafHyY4Ry9dGvPgWHLZHLoGg2", "mS8pRTBizyV81JZ7X6ggTHE0zlg2"];
 
 export default function Account() {
   const { user, profile } = useAuth();
@@ -24,6 +27,12 @@ export default function Account() {
           La recharge de solde (paiement en ligne) arrive bientôt.
         </p>
       </div>
+
+      {OWNER_UIDS.includes(user?.uid) && (
+        <Link to="/admin" className="btn btn-primary" style={{ textDecoration: "none" }}>
+          Administration
+        </Link>
+      )}
     </div>
   );
 }
