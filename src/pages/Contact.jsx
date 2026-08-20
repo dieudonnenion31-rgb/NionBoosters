@@ -1,8 +1,16 @@
 import { useContactSettings } from "../lib/useContactSettings";
 import GrowthRule from "../components/GrowthRule";
 
+const DEFAULTS = {
+  whatsapp: "+22606338037",
+  facebook: "https://www.facebook.com/profile.php?id=61593703911178",
+  tiktok: "https://tiktok.com/@nion.boosters",
+  email: "NionBoosters@gmail.com",
+};
+
 export default function Contact() {
-  const settings = useContactSettings();
+  const loaded = useContactSettings();
+  const settings = loaded === null ? null : { ...DEFAULTS, ...loaded };
 
   return (
     <div>
@@ -69,4 +77,4 @@ export default function Contact() {
       )}
     </div>
   );
-}
+              }
