@@ -1,9 +1,16 @@
 import { Link } from "react-router-dom";
 import { useContactSettings } from "../lib/useContactSettings";
 
+const DEFAULTS = {
+  whatsapp: "+22606338037",
+  facebook: "https://www.facebook.com/profile.php?id=61593703911178",
+  tiktok: "https://tiktok.com/@nion.boosters",
+  email: "NionBoosters@gmail.com",
+};
+
 export default function Footer() {
-  const settings = useContactSettings();
-  if (!settings) return null;
+  const loaded = useContactSettings();
+  const settings = { ...DEFAULTS, ...loaded };
 
   return (
     <footer className="site-footer">
